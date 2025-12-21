@@ -42,7 +42,7 @@ function wsDataToText(data) {
           if (x instanceof ArrayBuffer) return Buffer.from(x);
           if (ArrayBuffer.isView(x)) return Buffer.from(x.buffer);
           return Buffer.from(String(x));
-        })
+        }),
       ).toString("utf8");
     } catch {
       return String(d);
@@ -157,8 +157,8 @@ export default async function jsonrpcWsProxyHandler(req, res, map) {
     return res.status(500).json({
       error: {
         message: err?.message || String(err),
-        ...(err?.code && { code: err.code })
-      }
+        ...(err?.code && { code: err.code }),
+      },
     });
   }
 }
