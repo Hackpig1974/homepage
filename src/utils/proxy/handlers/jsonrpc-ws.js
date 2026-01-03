@@ -53,6 +53,7 @@ function wsDataToText(data) {
 
 async function sendJsonRpcWsRequest(widget, method, params) {
   const url = buildWsUrl(widget);
+  logger.info("TrueNAS WS connecting to %s for method=%s", url, method);
 
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(url, { rejectUnauthorized: false });
@@ -97,6 +98,7 @@ async function sendJsonRpcWsRequest(widget, method, params) {
     };
 
     ws.on("open", () => {
+      logger.info("TrueNAS WS connection opened, sending login for method=%s", method);
       ws.send(JSON.stringify(loginPayload));
     });
 
@@ -116,6 +118,7 @@ async function sendJsonRpcWsRequest(widget, method, params) {
           return finish(reject, new Error(`Login failed: ${JSON.stringify(msg.error)}`));
         }
         if (msg.result === true) {
+          logger.info("TrueNAS WS login successful, calling method=%s", method);
           ws.send(JSON.stringify(callPayload));
         }
         return;
@@ -126,6 +129,7 @@ async function sendJsonRpcWsRequest(widget, method, params) {
           logger.error("TrueNAS WS call failed for method=%s", method);
           return finish(reject, new Error(`RPC error: ${JSON.stringify(msg.error)}`));
         }
+        logger.info("TrueNAS WS call successful: method=%s", method);
         return finish(resolve, msg.result);
       }
     });
@@ -136,6 +140,8 @@ async function sendJsonRpcWsRequest(widget, method, params) {
 
 export default async function jsonrpcWsProxyHandler(req, res, map) {
   const { group, service, endpoint: method, index } = req.query;
+
+  logger.info("TrueNAS WebSocket handler invoked: group=%s service=%s endpoint=%s", group, service, method);
 
   if (!group || !service) {
     return res.status(400).json({ error: "Invalid request" });
