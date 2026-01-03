@@ -16,18 +16,32 @@ cd homepage
 git checkout truenas-jsonrpc
 ```
 
-### Build with Resource Limits
-The build process requires adequate resources. We recommend:
-- **Minimum**: 2 CPU cores, 4GB RAM (tested and verified)
-- **Build time**: ~3 minutes with minimum resources
-```bash
-# Build the image
+### Resource Requirements
+
+**Important**: Build and runtime have different resource needs.
+
+#### For Building the Image:
+- **CPU**: 2 cores minimum
+- **RAM**: 4GB minimum
+- **Build time**: ~3 minutes
+- **Note**: Only needed during `docker build` - can use temporary allocation
+
+#### For Running the Container:
+- **CPU**: 1 core (sufficient for normal operation)
+- **RAM**: 1GB (sufficient for normal operation)
+- **Note**: Homepage widget refresh rates are low (5-30 seconds), minimal resources needed
+
+````bash
+# Build the image (requires 2 CPU / 4GB RAM)
 docker build --tag ghcr.io/hackpig1974/homepage:latest .
 ```
 
-**Note**: The first build will regenerate `pnpm-lock.yaml` since the `ws` dependency was added. This is normal and expected.
+**Resource Allocation Tips:**
+- If using LXC/VM: Temporarily increase resources for build, then reduce for runtime
+- If using Docker Desktop: Ensure at least 4GB allocated for builds
+- Build failures due to memory are usually obvious (killed/OOM errors)
 
-**If the build fails** with out-of-memory errors, increase Docker resources to 4 CPU / 8GB RAM.
+**If the build fails**
 
 ## Deployment
 
