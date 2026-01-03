@@ -5,6 +5,23 @@
   </picture>
 </p>
 
+> [!IMPORTANT]
+> **🚀 TrueNAS WebSocket Fork**
+> 
+> This is a fork of [gethomepage/homepage](https://github.com/gethomepage/homepage) with **WebSocket JSON-RPC support for TrueNAS SCALE**.
+> 
+> **Why this fork?** TrueNAS 25.04+ (Electric Eel) deprecated the REST API in favor of WebSocket JSON-RPC. This fork ensures Homepage continues working with modern TrueNAS versions.
+> 
+> **What's added:**
+> - ✅ Native WebSocket JSON-RPC 2.0 support for TrueNAS SCALE
+> - ✅ Compatible with TrueNAS 25.04+ (Electric Eel) and newer
+> - ✅ Automatic fallback to REST API when `useWebsocket: false`
+> - ✅ Drop-in replacement - no breaking changes
+> 
+> **📖 Quick Start:** See [DEPLOYMENT.md](./DEPLOYMENT.md) for build and configuration instructions.
+
+---
+
 <p align="center">
   A modern, <em>fully static, fast</em>, secure <em>fully proxied</em>, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.
 </p>
@@ -15,6 +32,9 @@
 
 <p align="center">
   <a href="https://github.com/gethomepage/homepage/actions/workflows/docker-publish.yml"><img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/gethomepage/homepage/docker-publish.yml"></a>
+  &nbsp;
+  <a href="https://crowdin.com/project/gethomepage" target="_blank"><img src="https://badges.crowdin.net/gethomepage/localized.svg"></a>
+  &nbsp;
   &nbsp;
   <a href="https://crowdin.com/project/gethomepage" target="_blank"><img src="https://badges.crowdin.net/gethomepage/localized.svg"></a>
   &nbsp;
