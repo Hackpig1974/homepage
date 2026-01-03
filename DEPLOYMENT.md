@@ -93,31 +93,56 @@ Edit your `services.yaml`:
 
 ## Verification
 
-### Method 1: Check Container Logs
+### Method 1: Check Container Logs (Recommended)
+
+**View real-time logs:**
 ```bash
-# Follow logs in real-time
 docker logs homepage -f
-
-# Look for WebSocket handler activity
-docker logs homepage --tail 50 | grep jsonrpcWsProxyHandler
 ```
 
-**Expected log entries:**
+**Or check recent WebSocket activity:**
+```bash
+docker logs homepage --tail 100 | grep "jsonrpcWsProxyHandler"
 ```
-<jsonrpcWsProxyHandler> TrueNAS WS login...
-<jsonrpcWsProxyHandler> TrueNAS WS JSON-RPC success...
+
+**Expected output when WebSocket is working:**
 ```
+[2026-01-03T19:10:17.276Z] info: <jsonrpcWsProxyHandler> TrueNAS WebSocket handler invoked: group=... service=... endpoint=pool.query
+[2026-01-03T19:10:17.281Z] info: <jsonrpcWsProxyHandler> TrueNAS WS connecting to wss://192.168.100.60/api/current for method=pool.query
+[2026-01-03T19:10:17.291Z] info: <jsonrpcWsProxyHandler> TrueNAS WS connection opened, sending login for method=pool.query
+[2026-01-03T19:10:17.733Z] info: <jsonrpcWsProxyHandler> TrueNAS WS login successful, calling method=pool.query
+[2026-01-03T19:10:17.742Z] info: <jsonrpcWsProxyHandler> TrueNAS WS call successful: method=pool.query
+```
+
+**Key indicators of successful WebSocket usage:**
+- ✅ `TrueNAS WebSocket handler invoked` - Handler is being called
+- ✅ `TrueNAS WS connecting to wss://...` - Secure WebSocket connection
+- ✅ `TrueNAS WS login successful` - Authentication worked
+- ✅ `TrueNAS WS call successful` - Data retrieved successfully
+
+**If WebSocket is NOT enabled:**
+You'll see REST API calls instead (or no TrueNAS-related logs):
+```
+<httpProxy> Calling https://192.168.100.60/api/v2.0/...
+```
+
+**If you see no logs at all:**
+1. Verify `useWebsocket: true` is set in `services.yaml`
+2. Restart container: `docker restart homepage`
+3. Hard refresh browser (Ctrl+F5 or Cmd+Shift+R)
+4. Check that the widget is visible on your Homepage dashboard
 
 **Note**: Source files don't exist in production builds - Next.js compiles everything to `.next` directory. You cannot verify implementation by checking source files in the container.
 
 ### Method 2: Browser DevTools
+
 1. Open Homepage in browser
 2. Press F12 to open DevTools
-3. Go to **Network** tab
-4. Filter by **WS** (WebSocket)
+3. Go to Network tab
+4. Look for WebSocket connections (ws:// or wss://)
 5. Refresh the page
-6. Look for WebSocket connections to your TrueNAS instance
 
+You should see WebSocket connections to your TrueNAS server at `/api/current`
 ## Troubleshooting
 
 ### "Rate Limit Exceeded" Errors
