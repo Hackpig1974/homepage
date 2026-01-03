@@ -10,7 +10,7 @@ This fork adds WebSocket support to Homepage's TrueNAS widget, enabling real-tim
 - Git
 
 ### Clone the Repository
-````bash
+```bash
 git clone https://github.com/Hackpig1974/homepage.git truenas-websocket
 cd truenas-websocket
 git checkout truenas-jsonrpc
