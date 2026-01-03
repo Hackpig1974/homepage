@@ -61,7 +61,7 @@ docker run -d \
 version: "3.3"
 services:
   homepage:
-    image: homepage-truenas-websocket:latest
+    build: /path/to/truenas-websocket
     container_name: homepage
     ports:
       - 4000:3000
