@@ -32,7 +32,7 @@ git checkout truenas-jsonrpc
 - **Note**: Homepage widget refresh rates are low (5-30 seconds), minimal resources needed
 ```bash
 # Build the image (requires 2 CPU / 4GB RAM)
-docker build --tag ghcr.io/hackpig1974/homepage:latest .
+docker build --tag homepage-truenas-websocket:latest .
 ```
 
 **Resource Allocation Tips:**
@@ -53,7 +53,7 @@ docker run -d \
     -p 4000:3000 \
     -v /path/to/config:/app/config \
     -v /path/to/icons:/app/public/icons \
-    ghcr.io/hackpig1974/homepage:latest
+    homepage-truenas-websocket:latest
 ```
 
 ### Docker Compose
@@ -61,7 +61,7 @@ docker run -d \
 version: "3.3"
 services:
   homepage:
-    image: ghcr.io/hackpig1974/homepage:latest
+    image: homepage-truenas-websocket:latest
     container_name: homepage
     ports:
       - 4000:3000
@@ -166,7 +166,7 @@ docker run --rm -v $(pwd):/app -w /app node:22-slim bash -c "
 "
 
 # Retry build
-docker build --tag ghcr.io/hackpig1974/homepage:latest .
+docker build --tag homepage-truenas-websocket:latest .
 ```
 
 **Build Takes Too Long:**
